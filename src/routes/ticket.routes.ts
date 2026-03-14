@@ -12,4 +12,7 @@ router.get('/', TicketController.getAllTickets);
 // Get a ticket by ID
 router.get('/tickets/:id', TicketController.getTicketById);
 
+// Delete a ticket by ID
+router.delete('/tickets/:id', TicketController.deleteTicket);
+
 export default router;
