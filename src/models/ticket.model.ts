@@ -42,12 +42,21 @@ export class TicketModel {
     const result = await query(
       `SELECT * FROM tickets ORDER BY created_at DESC`,
     );
-    return result.rows;
+    return {total: result.rowCount, rows: result.rows};
   }
 
   // Get one ticket
   static async findById(id: string) {
     const result = await query(`SELECT * FROM tickets where id = $1`, [id]);
+    return result.rows[0];
+  }
+
+  // Delete a ticket
+  static async delete(id: string) {
+    const result = await query(
+      `DELETE FROM tickets WHERE id = $1 RETURNING *`,
+      [id],
+    );
     return result.rows[0];
   }
 }
