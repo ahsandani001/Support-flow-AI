@@ -68,8 +68,8 @@ Visit `http://localhost:3000/health` to verify it's running.
 
 - [Architecture Overview](./docs/ARCHITECTURE.md)
 - [Technical Decisions](./docs/DECISIONS.md)
-- [API Reference](./docs/API.md)
-- [Deployment Guide](./docs/DEPLOYMENT.md)
+<!-- - [API Reference](./docs/API.md) -->
+<!-- - [Deployment Guide](./docs/DEPLOYMENT.md) -->
 
 ## 🧪 Testing
 
