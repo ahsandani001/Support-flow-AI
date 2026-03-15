@@ -1,0 +1,45 @@
+{
+  "name": "supportflow-ai",
+  "version": "1.0.0",
+  "description": "[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)\r [![Node.js](https://img.shields.io/badge/Node.js-20-green)](https://nodejs.org/)\r [![NATS](https://img.shields.io/badge/NATS-Event--Driven-purple)](https://nats.io/)",
+  "main": "src/server.ts",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "nodemon src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahsandani001/sSupport-flow-AI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/ahsandani001/sSupport-flow-AI/issues"
+  },
+  "homepage": "https://github.com/ahsandani001/sSupport-flow-AI#readme",
+  "dependencies": {
+    "@types/pg": "^8.18.0",
+    "@types/redis": "^4.0.10",
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.2.4",
+    "pg": "^8.19.0",
+    "redis": "^5.11.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.3",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
