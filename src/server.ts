@@ -1,8 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { testConnection as testPostgres } from './config/postgres.ts';
+import { connectMongoDB } from './config/mongodb.ts';
 import { TicketModel } from './models/ticket.model.ts';
 import ticketRoutes from './routes/ticket.routes.ts';
+import messageRoutes from './routes/message.routes.ts';
 
 dotenv.config();
 
@@ -14,12 +16,16 @@ app.use(express.json());
 
 // Routes
 app.use(ticketRoutes);
+app.use(messageRoutes);
 
 // initialize DB and start server
 async function startServer() {
   try {
     // test postgres connection
     await testPostgres();
+
+    // test mongoDB connection
+    await connectMongoDB();
 
     // Create ticket table in postgres
     await TicketModel.createTable();
