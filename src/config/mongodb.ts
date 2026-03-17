@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const MONGODB_URI =
   process.env.MONGODB_URI ||
-  'mongodb://admin:password@localhost:27017/supportflow?authSource=admin';
+  'mongodb://admin:password@localhost:27018/supportflow?authSource=admin';
 
 export const connectMongoDB = async () => {
   try {
