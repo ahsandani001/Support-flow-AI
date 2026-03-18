@@ -34,13 +34,13 @@
 - [x] POST /tickets/:id/messages - add message to ticket
 - [x] GET /tickets/:id/messages - retrieve conversation
 - [x] Channel field (email, chat, system)
-- [ ] Message attachments structure (prepare for files)
+- [x] Message attachments structure (prepare for files)
 
 ### Learning Objectives
 
-- [ ] Understand MongoDB schema flexibility
-- [ ] Compare MongoDB vs PostgreSQL for different use cases
-- [ ] Handle embedded documents vs references
+- [x] Understand MongoDB schema flexibility
+- [x] Compare MongoDB vs PostgreSQL for different use cases
+- [x] Handle embedded documents vs references
 
 ---
 
@@ -50,7 +50,7 @@
 
 ### Features
 
-- [ ] Redis connection setup
+- [x] Redis connection setup
 - [ ] Cache GET /tickets responses (5 min TTL)
 - [ ] Cache GET /tickets/:id responses
 - [ ] Invalidate cache on POST/PUT/DELETE
