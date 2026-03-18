@@ -51,9 +51,9 @@
 ### Features
 
 - [x] Redis connection setup
-- [ ] Cache GET /tickets responses (5 min TTL)
-- [ ] Cache GET /tickets/:id responses
-- [ ] Invalidate cache on POST/PUT/DELETE
+- [x] Cache GET /tickets responses (5 min TTL)
+- [x] Cache GET /tickets/:id responses
+- [x] Invalidate cache on POST/PUT/DELETE
 - [ ] Rate limiting per IP
 - [ ] Session store for future auth
 
