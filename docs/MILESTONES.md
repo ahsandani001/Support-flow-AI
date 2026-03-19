@@ -54,14 +54,14 @@
 - [x] Cache GET /tickets responses (5 min TTL)
 - [x] Cache GET /tickets/:id responses
 - [x] Invalidate cache on POST/PUT/DELETE
-- [ ] Rate limiting per IP
-- [ ] Session store for future auth
+- [x] Rate limiting per IP
+- [x] Session store for future auth
 
 ### Learning Objectives
 
-- [ ] Understand caching strategies
-- [ ] Cache invalidation patterns
-- [ ] Redis data structures
+- [x] Understand caching strategies
+- [x] Cache invalidation patterns
+- [x] Redis data structures
 
 ---
 
