@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { testConnection as testPostgres } from './config/postgres.ts';
 import { connectMongoDB } from './config/mongodb.ts';
+import { connectRedis } from './config/redis.ts';
 import { TicketModel } from './models/ticket.model.ts';
 import ticketRoutes from './routes/ticket.routes.ts';
 import messageRoutes from './routes/message.routes.ts';
@@ -26,6 +27,9 @@ async function startServer() {
 
     // test mongoDB connection
     await connectMongoDB();
+
+    // test redis connection
+    await connectRedis();
 
     // Create ticket table in postgres
     await TicketModel.createTable();
