@@ -25,6 +25,27 @@ export class TicketModel {
     console.log('✅ Tickets table ready');
   }
 
+  static async createEmbeddingTable() {
+    const sql = `
+        CREATE TABLE IF NOT EXISTS ticket_embeddings (
+          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+          ticket_id UUID REFERENCES tickets(id) ON DELETE CASCADE,
+          embedding vector(384),  -- 384 dimensions for nomic-embed-text
+          created_at TIMESTAMP DEFAULT NOW(),
+          UNIQUE(ticket_id)
+      )`;
+    await query(sql);
+    console.log('✅ Tickets Embedding table ready');
+  }
+
+  static async createIndexEmbedding() {
+    const sql = `
+          CREATE INDEX IF NOT EXISTS idx_ticket_embeddings ON ticket_embeddings 
+            USING ivfflat (embedding vector_cosine_ops)
+            WITH (lists = 100)
+    `;
+  }
+
   // Insert a new Ticket
   static async insert(ticket: Ticket) {
     const sql = `
@@ -42,7 +63,7 @@ export class TicketModel {
     const result = await query(
       `SELECT * FROM tickets ORDER BY created_at DESC`,
     );
-    return {total: result.rowCount, rows: result.rows};
+    return { total: result.rowCount, rows: result.rows };
   }
 
   // Get one ticket

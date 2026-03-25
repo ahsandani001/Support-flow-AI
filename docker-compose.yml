@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   postgres:
-    image: postgres:15
+    image: pgvector/pgvector:pg15
     container_name: supportflow_postgres
     environment:
       POSTGRES_USER: postgres
@@ -12,6 +12,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Mount a local init script to enable the extension on startup
+      - ./init-db:/docker-entrypoint-initdb.d
 
   mongodb:
     image: mongo:latest
