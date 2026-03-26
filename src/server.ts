@@ -33,6 +33,12 @@ async function startServer() {
 
     // Create ticket table in postgres
     await TicketModel.createTable();
+
+    // Create ticket embedding table in postgres
+    await TicketModel.createEmbeddingTable();
+
+    // create ticket embedding index in postgres
+    await TicketModel.createIndexEmbedding();
   } catch (err) {
     console.log('❌ Failed to start server:', err);
   }
