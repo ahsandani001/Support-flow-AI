@@ -71,8 +71,8 @@
 
 ### Prerequisites
 
-- [ ] Install pgvector extension
-- [ ] Set up Ollama locally (free, open-source LLM)
+- [x] Install pgvector extension
+- [x] Set up Ollama locally (free, open-source LLM)
 
 ### Features
 
