@@ -76,8 +76,8 @@
 
 ### Features
 
-- [ ] Generate embeddings for ticket descriptions
-- [ ] Store embeddings in PostgreSQL with pgvector
+- [x] Generate embeddings for ticket descriptions
+- [x] Store embeddings in PostgreSQL with pgvector
 - [ ] Similar ticket suggestions endpoint
 - [ ] Auto-tagging of new tickets
 - [ ] Smart assignment suggestions
