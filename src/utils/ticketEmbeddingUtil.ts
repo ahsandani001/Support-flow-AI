@@ -18,12 +18,6 @@ export async function generateEmbeddings(text: string): Promise<number[]> {
 }
 
 export async function storeEmbeddings(ticketId: string, embedding: number[]) {
-  // const tickets = await TicketModel.findAll();
-
-  // for (const ticket of tickets.rows) {
-  //   const text = `${ticket.title} ${ticket.description}`;
-  //   const embedding = await getEmbedding(text);
-
   await query(
     `INSERT INTO ticket_embeddings (ticket_id, embedding)
        VALUES ($1, $2::vector)
@@ -32,7 +26,4 @@ export async function storeEmbeddings(ticketId: string, embedding: number[]) {
   );
 
   console.log(`✅ Embedded ticket ${ticketId}`);
-  // }
 }
-
-// generateRealEmbeddings();
