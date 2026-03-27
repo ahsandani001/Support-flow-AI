@@ -22,7 +22,8 @@ export class TicketController {
       const ticket = await TicketModel.insert(req.body);
 
       // Create embeddings for every ticket and store
-      const ticketText = `${ticket.title} ${ticket.description}`;
+      const ticketText =
+        `${ticket.title}\n\n${ticket.description || ''}`.trim();
       const embeddings = await generateEmbeddings(ticketText);
 
       // store embeddings
