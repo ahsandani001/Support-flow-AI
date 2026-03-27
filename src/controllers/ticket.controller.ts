@@ -104,4 +104,60 @@ export class TicketController {
       res.status(500).json({ error: 'Failed to delete ticket' });
     }
   }
+
+  /**
+   * Get similar tickets from a given ticket
+   * GET /tickets/:ticketId/similar
+   */
+  static getSimilarTickets = async (req: Request, res: Response) => {
+    try {
+      const { ticketId } = req.params;
+      const { limit = 5, minSimilarity = 0.7 } = req.query;
+
+      // 1. Get embedding for this ticket
+      const embeddingResult = await query(
+        'SELECT embedding, (SELECT title FROM tickets WHERE id = $1) FROM ticket_embeddings WHERE ticket_id = $1',
+        [ticketId],
+      );
+
+      if (embeddingResult.rows.length === 0) {
+        return res
+          .status(404)
+          .json({ error: 'No embedding found for this ticket' });
+      }
+
+      const embedding = embeddingResult.rows[0].embedding;
+      const currentTicketTitle = embeddingResult.rows[0].title;
+
+      const similar = await query(
+        `
+      SELECT 
+        t.id, t.title, t.description, t.status, t.created_at,
+        1 - (te.embedding <=> $1::vector) as similarity
+      FROM ticket_embeddings te
+      JOIN tickets t ON t.id = te.ticket_id
+      WHERE te.ticket_id != $2
+      AND 1 - (te.embedding <=> $1::vector) >= $3
+      ORDER BY te.embedding <=> $1::vector
+      LIMIT $4
+    `,
+        [embedding, ticketId, minSimilarity, limit],
+      );
+
+      res.json({
+        message: `Found ${similar.rows.length} similar tickets (min similarity: ${minSimilarity})`,
+        current_ticket: {
+          id: ticketId,
+          title: currentTicketTitle,
+        },
+        similar_tickets: similar.rows.map((ticket) => ({
+          ...ticket,
+          similarity_percentage: `${(ticket.similarity * 100).toFixed(1)}%`,
+        })),
+      });
+    } catch (error) {
+      console.error('Error finding similar tickets:', error);
+      res.status(500).json({ error: 'Failed to find similar tickets' });
+    }
+  };
 }
