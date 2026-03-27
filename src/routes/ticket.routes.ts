@@ -24,4 +24,6 @@ router.delete(
   TicketController.deleteTicket,
 );
 
+router.get('/tickets/:ticketId/similar', TicketController.getSimilarTickets);
+
 export default router;
