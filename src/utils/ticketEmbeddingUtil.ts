@@ -27,3 +27,15 @@ export async function storeEmbeddings(ticketId: string, embedding: number[]) {
 
   console.log(`✅ Embedded ticket ${ticketId}`);
 }
+
+export async function deleteEmbeddings(ticketId: string): Promise<boolean> {
+  const result = await query(
+    `DELETE FROM ticket_embeddings WHERE ticket_id = $1`,
+    [ticketId],
+  );
+  if (result && result.rowCount && result.rowCount > 0) {
+    console.log(`✅ Deleted embeddings for ticket ${ticketId}`);
+    return true;
+  }
+  return false;
+}
