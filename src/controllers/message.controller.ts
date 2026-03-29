@@ -48,4 +48,9 @@ export class MessageController {
       res.status(500).json({ error: 'Failed to fetch messages' });
     }
   }
+
+  static async deleteMessagesByTicketId(ticketId: string): Promise<void> {
+    // Delete all messages associated with the given ticket
+    await Message.deleteMany({ ticketId });
+  }
 }

@@ -4,7 +4,9 @@ import { invalidateTicketCache } from '../utils/cache.utils.ts';
 import {
   generateEmbeddings,
   storeEmbeddings,
+  deleteEmbeddings,
 } from '../utils/ticketEmbeddingUtil.ts';
+import { MessageController } from './message.controller.ts';
 import { query } from '../config/postgres.ts';
 
 type Request = express.Request;
@@ -88,20 +90,32 @@ export class TicketController {
    */
   static async deleteTicket(req: Request, res: Response) {
     try {
+      await query('BEGIN');
+
       const id = Array.isArray(req.params.id)
         ? req.params.id[0]
         : req.params.id;
       const ticket = await TicketModel.delete(id);
       if (!ticket) {
+        await query('ROLLBACK');
         return res.status(404).json({ error: 'Ticket not found' });
       }
+
+      // Delete associated embeddings
+      await deleteEmbeddings(id);
+
+      // Delete associated messages
+      await MessageController.deleteMessagesByTicketId(id);
 
       // Invalidate cache when a ticket is deleted
       await invalidateTicketCache();
 
+      await query('COMMIT');
+
       res.json({ message: 'Ticket deleted successfully', ticket });
     } catch (err) {
-      console.log(err);
+      await query('ROLLBACK');
+      console.log('Transaction failed: ', err);
       res.status(500).json({ error: 'Failed to delete ticket' });
     }
   }

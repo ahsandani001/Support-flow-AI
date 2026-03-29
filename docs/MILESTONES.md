@@ -78,7 +78,7 @@
 
 - [x] Generate embeddings for ticket descriptions
 - [x] Store embeddings in PostgreSQL with pgvector
-- [ ] Similar ticket suggestions endpoint
+- [x] Similar ticket suggestions endpoint
 - [ ] Auto-tagging of new tickets
 - [ ] Smart assignment suggestions
 
