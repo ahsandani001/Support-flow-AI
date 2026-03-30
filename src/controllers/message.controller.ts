@@ -21,7 +21,6 @@ export class MessageController {
       };
 
       const message = await Message.create(messageData);
-      console.log('message successfully created ==================> ');
       res.status(201).json(message);
     } catch (err) {
       console.log(err);
