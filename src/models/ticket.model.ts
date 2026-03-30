@@ -10,13 +10,18 @@ export interface Ticket {
 }
 
 export class TicketModel {
-  static async insert(ticket: Ticket) {
+  static async insert(ticket: Ticket, autoTags?: string[]) {
     const sql = `
-            INSERT INTO tickets (title, description, customer_email)
-            VALUES ($1, $2, $3)
+            INSERT INTO tickets (title, description, customer_email, tags)
+            VALUES ($1, $2, $3, $4)
             RETURNING *
         `;
-    const values = [ticket.title, ticket.description, ticket.customer_email];
+    const values = [
+      ticket.title,
+      ticket.description,
+      ticket.customer_email,
+      autoTags || [],
+    ];
     const result = await query(sql, values);
     return result.rows[0];
   }
