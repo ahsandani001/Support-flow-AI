@@ -3,9 +3,9 @@ import dotenv from 'dotenv';
 import { testConnection as testPostgres } from './config/postgres.ts';
 import { connectMongoDB } from './config/mongodb.ts';
 import { connectRedis } from './config/redis.ts';
-import { TicketModel } from './models/ticket.model.ts';
 import ticketRoutes from './routes/ticket.routes.ts';
 import messageRoutes from './routes/message.routes.ts';
+import { MigrationRunner } from './migrations/runner.ts';
 
 dotenv.config();
 
@@ -31,16 +31,11 @@ async function startServer() {
     // test redis connection
     await connectRedis();
 
-    // Create ticket table in postgres
-    await TicketModel.createTable();
-
-    // Create ticket embedding table in postgres
-    await TicketModel.createEmbeddingTable();
-
-    // create ticket embedding index in postgres
-    await TicketModel.createIndexEmbedding();
+    // Run migration after connecting DB
+    await MigrationRunner.runMigrations();
   } catch (err) {
     console.log('❌ Failed to start server:', err);
+    process.exit(1); //Exits if DB connection fails
   }
   // start server
   app.listen(port, () => {

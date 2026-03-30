@@ -10,43 +10,6 @@ export interface Ticket {
 }
 
 export class TicketModel {
-  static async createTable() {
-    const sql = `
-            CREATE TABLE IF NOT EXISTS tickets (
-                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-                title VARCHAR(255) NOT NULL,
-                description TEXT,
-                status VARCHAR(50) DEFAULT 'open',
-                customer_email VARCHAR(255),
-                created_at TIMESTAMP DEFAULT NOW()
-            )
-        `;
-    await query(sql);
-    console.log('✅ Tickets table ready');
-  }
-
-  static async createEmbeddingTable() {
-    const sql = `
-        CREATE TABLE IF NOT EXISTS ticket_embeddings (
-          id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-          ticket_id UUID REFERENCES tickets(id) ON DELETE CASCADE,
-          embedding vector(384),  -- 384 dimensions for nomic-embed-text
-          created_at TIMESTAMP DEFAULT NOW(),
-          UNIQUE(ticket_id)
-      )`;
-    await query(sql);
-    console.log('✅ Tickets Embedding table ready');
-  }
-
-  static async createIndexEmbedding() {
-    const sql = `
-          CREATE INDEX IF NOT EXISTS idx_ticket_embeddings ON ticket_embeddings 
-            USING ivfflat (embedding vector_cosine_ops)
-            WITH (lists = 100)
-    `;
-  }
-
-  // Insert a new Ticket
   static async insert(ticket: Ticket) {
     const sql = `
             INSERT INTO tickets (title, description, customer_email)
