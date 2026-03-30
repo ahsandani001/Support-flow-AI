@@ -8,6 +8,7 @@ import {
 } from '../utils/ticketEmbeddingUtil.ts';
 import { MessageController } from './message.controller.ts';
 import { query } from '../config/postgres.ts';
+import { generateTags } from '../utils/aiTag.util.ts';
 
 type Request = express.Request;
 type Response = express.Response;
@@ -21,7 +22,10 @@ export class TicketController {
     try {
       await query('BEGIN');
 
-      const ticket = await TicketModel.insert(req.body);
+      // Generate tags
+      const tags = await generateTags(req.body.title, req.body.description);
+
+      const ticket = await TicketModel.insert(req.body, tags);
 
       // Create embeddings for every ticket and store
       const ticketText =
@@ -35,11 +39,11 @@ export class TicketController {
       await invalidateTicketCache();
       await query('COMMIT');
 
-      res.status(200).json(ticket);
+      res.status(200).json({ ...ticket, aiSuggestedTags: tags });
     } catch (err: any) {
       // Rollback everything
       await query('ROLLBACK');
-      console.error('Transaction failed:', err, typeof err);
+      console.error('Transaction failed:', err);
       if (err.code === '23505') {
         // PostgreSQL unique violation
         res.status(409).json({ error: 'Ticket already exists' });
