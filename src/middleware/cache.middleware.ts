@@ -83,3 +83,11 @@ export const cacheTicketMessages = cacheMiddleware((req: Request) => {
     : req.params.id;
   return CACHE_KEYS.TICKET_MESSAGES(ticketId);
 }, CACHE_TTL.MESSAGES);
+
+/**
+ * Cache middleware for users list
+ */
+export const cacheUsersList = cacheMiddleware(
+  () => CACHE_KEYS.USERS,
+  CACHE_TTL.USERS || CACHE_TTL.TICKETS,
+);
