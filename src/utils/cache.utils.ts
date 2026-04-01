@@ -5,11 +5,13 @@ export const CACHE_TTL = {
   TICKETS: 300, // 5 minutes for tickets list
   TICKET_BY_ID: 300, // 5 minutes for individual ticket
   MESSAGES: 180, // 3 minutes for messages
+  USERS: 300, // 5 minutes for users list
 };
 
 // Cache key generators
 export const CACHE_KEYS = {
   TICKETS: 'tickets:all',
+  USERS: 'users:all',
   TICKET_BY_ID: (id: string) => `tickets:${id}`,
   TICKET_MESSAGES: (ticketId: string) => `tickets:${ticketId}:messages`,
 };
@@ -87,5 +89,16 @@ export const invalidateTicketCache = async (): Promise<void> => {
     await deletePatternFromCache('tickets:*');
   } catch (error) {
     console.error('Ticket cache invalidation error:', error);
+  }
+};
+
+/**
+ * Invalidate all user-related cache
+ */
+export const invalidateUserCache = async (): Promise<void> => {
+  try {
+    await deletePatternFromCache('users:*');
+  } catch (error) {
+    console.error('User cache invalidation error:', error);
   }
 };

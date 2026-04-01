@@ -5,7 +5,10 @@ import { connectMongoDB } from './config/mongodb.ts';
 import { connectRedis } from './config/redis.ts';
 import ticketRoutes from './routes/ticket.routes.ts';
 import messageRoutes from './routes/message.routes.ts';
+import authRoutes from './routes/auth.routes.ts';
+import userRoutes from './routes/user.routes.ts';
 import { MigrationRunner } from './migrations/runner.ts';
+import { authenticate } from './middleware/auth.middleware.ts'; // Add this
 
 dotenv.config();
 
@@ -16,7 +19,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // Routes
-app.use(ticketRoutes);
+app.use('/auth', authRoutes);
+app.use('/users', userRoutes);
+app.use('/tickets', ticketRoutes);
 app.use(messageRoutes);
 
 // initialize DB and start server
