@@ -25,7 +25,16 @@ export class TicketController {
       // Generate tags
       const tags = await generateTags(req.body.title, req.body.description);
 
-      const ticket = await TicketModel.insert(req.body, tags);
+      // Get customer ID from authenticated user
+      const customerId = (req as any).user?.id;
+
+      const ticket = await TicketModel.insert(
+        {
+          ...req.body,
+          customer_id: customerId,
+        },
+        tags,
+      );
 
       // Create embeddings for every ticket and store
       const ticketText =

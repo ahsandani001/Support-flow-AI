@@ -6,14 +6,17 @@ export interface Ticket {
   description: string;
   status: 'open' | 'in-progress' | 'resolved';
   customer_email: string;
+  customer_id?: string; // New field
+  assigned_to?: string; // New field
+  resolved_by?: string; // New field
   created_at?: Date;
 }
 
 export class TicketModel {
   static async insert(ticket: Ticket, autoTags?: string[]) {
     const sql = `
-            INSERT INTO tickets (title, description, customer_email, tags)
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO tickets (title, description, customer_email, tags, customer_id)
+            VALUES ($1, $2, $3, $4, $5)
             RETURNING *
         `;
     const values = [
@@ -21,6 +24,7 @@ export class TicketModel {
       ticket.description,
       ticket.customer_email,
       autoTags || [],
+      ticket.customer_id,
     ];
     const result = await query(sql, values);
     return result.rows[0];
