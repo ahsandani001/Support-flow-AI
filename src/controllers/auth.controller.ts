@@ -44,7 +44,7 @@ export class AuthController {
         role: role || 'agent',
         skills: skills || [],
         current_load: 0,
-        max_load: 0,
+        max_load: 5, // Create a new migration to set agent's default value to 5
         status: 'active',
       });
 

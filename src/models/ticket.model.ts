@@ -5,6 +5,7 @@ export interface Ticket {
   title: string;
   description: string;
   status: 'open' | 'in-progress' | 'resolved';
+  tags?: string[]; // New field
   customer_email: string;
   customer_id?: string; // New field
   assigned_to?: string; // New field
